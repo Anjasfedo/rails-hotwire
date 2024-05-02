@@ -1,8 +1,13 @@
 <tr id="<%= dom_id message%>">
-    <td><%= message.created_at.to_s %>: <%= message.content %></td>
-    <td>
-      <%= link_to 'Edit', edit_room_message_path(message.room_id, message.id) %>
-      <%= button_to "Delete", room_message_path(message.room_id, message.id), method: :delete %>
-    </td>
-
+  <td><%= message.created_at.to_s %>: <%= message.content %></td>
+  <td>
+    <%= link_to 'Edit', edit_room_message_path(message.room_id, message.id) %>
+    <%= button_to "Delete", room_message_path(message.room_id, message.id), method: :delete %>
+  </td>
 </tr>
+
+<!-- 
+  <%= turbo_frame_tag "edit_#{dom_id message}" do %> 
+  <% end %>
+-->
+<!-- Turbo Frame Tag can't be place on tr to wrap td -->
