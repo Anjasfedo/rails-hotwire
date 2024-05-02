@@ -1,3 +1,7 @@
-<p id="<%= dom_id message%>">
-<%= message.created_at.to_s %>: <%= message.content %>
-</p>
+<tr id="<%= dom_id message%>">
+  <%= turbo_frame_tag "edit_#{dom_id message}", target: "_top" do %>
+    <td><%= message.created_at.to_s %>: <%= message.content %></td>
+    <td><%= link_to 'Edit', edit_room_message_path(message.room_id, message.id) %>
+      <%= button_to "Delete", room_message_path(message.room_id, message.id), method: :delete %></td>
+  <% end %>
+</tr>

@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
-  before_action :set_room, only: %i[ new create ]
+  before_action :set_room, only: %i[new create destroy edit update]
+  before_action :set_message, only: %i[destroy edit update]
 
   def new
     @message = @room.messages.new
@@ -11,7 +12,8 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @room, notice: "message was successfully created." }
+        # format.turbo_stream
+        format.html { redirect_to @room, notice: 'message was successfully createdddd.' }
         # format.json { render :show, status: :created, location: @message }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -20,14 +22,43 @@ class MessagesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_room
-      @room = Room.find(params[:room_id])
-    end
+  # GET /rooms/:room_id/messages/:id/edit
+  def edit; end
 
-    # Only allow a list of trusted parameters through.
-    def message_params
-      params.require(:message).permit(:content)
+  # PATCH/PUT /rooms/:room_id/messages/:id
+  def update
+    respond_to do |format|
+      if @message.update(message_params)
+        format.html { redirect_to @room, notice: 'Message was successfully updated.' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
+  end
+
+  # DELETE /rooms/:room_id/messages/:id
+  def destroy
+    @message.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @room, notice: "Message was successfully deleted." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_room
+    @room = Room.find(params[:room_id])
+  end
+
+  def set_message
+    @message = @room.messages.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def message_params
+    params.require(:message).permit(:content)
+  end
 end

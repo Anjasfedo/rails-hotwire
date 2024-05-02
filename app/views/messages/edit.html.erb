@@ -1,0 +1,5 @@
+<h1>Edit Message</h1>
+<%= turbo_frame_tag "edit_#{dom_id @message}", target: "_top" do %>
+<%= render "form", message: @message %>
+<% end %>
+<%= link_to "Back", @message.room %>
