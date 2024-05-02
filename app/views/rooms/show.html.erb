@@ -1,7 +1,9 @@
 <p id="notice"><%= notice %></p>
-<!-- <%= turbo_stream_from @room %> Make stream cable to the messages on #messages -->
+<!-- <%= turbo_stream_from @room %> Make stream cable -->
+<%= turbo_stream_from @room %>
+
 <%= turbo_frame_tag "room" do %>
-  <p><strong>Name:</strong><%= @room.name %></p>
+<%= render @room %>
   <p>
     <%= link_to 'Edit', edit_room_path(@room) %>
     <%= link_to 'Back', rooms_path, "data-turbo-frame": "_top" %>
